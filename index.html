@@ -5,19 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Πλάτς & Λέξη</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
-body{
+html,body{
     margin:0;
-    font-family:'Baloo 2',cursive;
+    padding:0;
+    font-family:'Baloo 2', Arial, sans-serif;
+    font-weight:600;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
     color:white;
     text-align:center;
     overflow-x:hidden;
     background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);
 }
 
-/* ⭐ Αστέρια */
+/* ⭐ Stars */
 .stars{
     position:fixed;
     width:100%;
@@ -36,7 +40,7 @@ body{
     to{opacity:1;}
 }
 
-/* 🌙 Φεγγάρι */
+/* 🌙 Moon */
 .moon{
     position:absolute;
     top:80px;
@@ -53,35 +57,46 @@ body{
     to{left:110%;}
 }
 
-/* 🌊 Νερό */
+/* 🌊 Water */
 .water{
     position:absolute;
     bottom:0;
     width:200%;
-    height:150px;
+    height:160px;
     background:rgba(0,119,190,0.5);
     border-radius:40%;
     animation:wave 8s linear infinite;
+    overflow:hidden;
 }
 @keyframes wave{
     from{transform:translateX(0);}
     to{transform:translateX(-50%);}
 }
 
-/* 🐸 Βατραχάκια */
-.frog{
-    position:fixed;
-    font-size:30px;
-    pointer-events:none;
-    animation:frogJump 4s infinite ease-in-out;
+/* Ripple */
+.ripple{
+    position:absolute;
+    border:2px solid rgba(255,255,255,0.7);
+    border-radius:50%;
+    animation:rippleAnim 1s ease-out forwards;
 }
-@keyframes frogJump{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-20px);}
-    100%{transform:translateY(0);}
+@keyframes rippleAnim{
+    from{width:0;height:0;opacity:1;}
+    to{width:120px;height:120px;opacity:0;}
 }
 
-/* Περιεχόμενο */
+/* 🐸 Frogs */
+.frog{
+    position:fixed;
+    font-size:32px;
+    cursor:pointer;
+    transition:transform 0.2s;
+}
+.frog:active{
+    transform:scale(1.4);
+}
+
+/* Content */
 .content{
     position:relative;
     z-index:5;
@@ -104,12 +119,11 @@ header{
     text-align:left;
 }
 
-h2{
-    text-align:center;
-}
+h2{text-align:center;}
 
 button{
-    font-family:'Baloo 2',cursive;
+    font-family:'Baloo 2', Arial, sans-serif;
+    font-weight:700;
     font-size:16px;
     padding:10px 16px;
     margin:6px;
@@ -118,7 +132,6 @@ button{
     cursor:pointer;
     background:white;
     color:#2c5364;
-    font-weight:bold;
 }
 
 #timer{
@@ -139,7 +152,7 @@ button{
 
 <div class="stars" id="stars"></div>
 <div class="moon"></div>
-<div class="water"></div>
+<div class="water" id="water"></div>
 
 <div class="content">
 
@@ -162,62 +175,55 @@ button{
 <div class="card">
 <h2>🎯 Στόχος</h2>
 <p>Σύλλεξε τα γράμματα που χρειάζεσαι για να φτιάξεις τη λέξη σου. Ο πρώτος που θα τα καταφέρει κερδίζει!</p>
-
-<h2>📦 Περιεχόμενα</h2>
-<ul>
-<li>Ταμπλό λίμνη γραμμάτων</li>
-<li>Ζάρι</li>
-<li>Κάρτες λέξεων 6 γραμμάτων</li>
-<li>Μαρκαδόροι που σβήνουν</li>
-<li>Ταμπλέτες γραμμάτων</li>
-<li>Πιόνια</li>
-<li>Καρτέλες λέξεων υψηλού επιπέδου με δίφθογγους</li>
-</ul>
-
-<h2>🎮 Πώς παίζεται</h2>
-<ul>
-<li>Κάθε παίκτης επιλέγει ένα πιόνι.</li>
-<li>Ξεκινάει ο πιο μικρός σε ηλικία.</li>
-<li>Όλα τα πιόνια τοποθετούνται στη βάρκα «Αρχή».</li>
-<li>Κάθε παίκτης παίρνει μια κάρτα λέξης.</li>
-<li>Ρίχνει το ζάρι και προχωρά.</li>
-<li>Λέει λέξη από το γράμμα που έφτασε.</li>
-<li>Αν δεν πει σωστή λέξη, γυρίζει πίσω.</li>
-<li>Συμπληρώνει τα γράμματα της λέξης του.</li>
-<li>Επιστρέφει στη «Αρχή» για να κερδίσει.</li>
-<li>Δεν επαναλαμβάνονται λέξεις.</li>
-</ul>
-
-</div>
 </div>
 
-<audio id="frogSound" loop>
+</div>
+
+<audio id="frogSoundLoop" loop>
 <source src="frogs.mp3" type="audio/mpeg">
 </audio>
 
+<audio id="frogClick">
+<source src="frog-croak.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-// ⭐ Αστέρια
+// ⭐ Stars
 for(let i=0;i<100;i++){
     let star=document.createElement("div");
     star.className="star";
     star.style.top=Math.random()*100+"%";
     star.style.left=Math.random()*100+"%";
-    star.style.animationDuration=(Math.random()*3+1)+"s";
     document.getElementById("stars").appendChild(star);
 }
 
-// 🐸 Βατραχάκια
-for(let i=0;i<10;i++){
+// 🐸 Frogs clickable
+for(let i=0;i<8;i++){
     let frog=document.createElement("div");
     frog.className="frog";
     frog.innerText="🐸";
-    frog.style.top=Math.random()*85+"%";
+    frog.style.top=Math.random()*80+"%";
     frog.style.left=Math.random()*95+"%";
-    frog.style.animationDuration=(Math.random()*3+3)+"s";
+
+    frog.onclick=(e)=>{
+        document.getElementById("frogClick").play();
+        createRipple(e.clientX,e.clientY);
+    };
+
     document.body.appendChild(frog);
 }
 
-// Timer Logic
+// Ripple function
+function createRipple(x,y){
+    let ripple=document.createElement("div");
+    ripple.className="ripple";
+    ripple.style.left=(x-60)+"px";
+    ripple.style.top=(window.innerHeight-150)+"px";
+    document.getElementById("water").appendChild(ripple);
+    setTimeout(()=>ripple.remove(),1000);
+}
+
+// Timer
 let seconds=0;
 let interval=null;
 let running=false;
@@ -244,7 +250,7 @@ function startGame(){
         },1000);
         running=true;
         if(soundOn){
-            document.getElementById("frogSound").play();
+            document.getElementById("frogSoundLoop").play();
         }
     }
 }
@@ -263,7 +269,7 @@ function endGame(){
 }
 
 function toggleSound(){
-    let audio=document.getElementById("frogSound");
+    let audio=document.getElementById("frogSoundLoop");
     if(!soundOn){
         audio.play();
         soundOn=true;
