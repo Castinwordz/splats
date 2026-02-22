@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Πλάτς & Λέξη</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Baloo 2', cursive;
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+}
+
+/* ⭐ Αστέρια */
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    animation: twinkle 2s infinite alternate;
+}
+@keyframes twinkle {
+    from { opacity: 0.2; }
+    to { opacity: 1; }
+}
+
+/* 🌙 Φεγγάρι */
+.moon {
+    position: absolute;
+    top: 80px;
+    left: -150px;
+    width: 110px;
+    height: 110px;
+    background: radial-gradient(circle, #fff 40%, #ddd 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(255,255,255,0.8);
+    animation: moveMoon 60s linear infinite;
+}
+@keyframes moveMoon {
+    from { left: -150px; }
+    to { left: 110%; }
+}
+
+/* 🌊 Αντανάκλαση */
+.moon-reflection {
+    position: absolute;
+    bottom: 120px;
+    left: -150px;
+    width: 110px;
+    height: 110px;
+    background: radial-gradient(circle, rgba(255,255,255,0.6) 40%, rgba(255,255,255,0.2) 70%);
+    border-radius: 50%;
+    transform: scaleY(-1);
+    filter: blur(6px);
+    opacity: 0.5;
+    animation: moveMoon 60s linear infinite, waterDistort 4s ease-in-out infinite;
+}
+@keyframes waterDistort {
+    0% { transform: scaleY(-1) translateY(0px); }
+    50% { transform: scaleY(-1) translateY(8px); }
+    100% { transform: scaleY(-1) translateY(0px); }
+}
+
+/* 🌊 Νερό */
+.water {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 150px;
+    background: rgba(0, 119, 190, 0.5);
+    border-radius: 40%;
+    animation: wave 8s linear infinite;
+}
+@keyframes wave {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* 🐸 Βατραχάκια */
+.frog {
+    position: absolute;
+    font-size: 35px;
+    animation: jump 4s infinite ease-in-out;
+}
+@keyframes jump {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+    100% { transform: translateY(0); }
+}
+
+/* Περιεχόμενο */
+.content {
+    position: relative;
+    z-index: 5;
+    padding: 20px;
+}
+
+header {
+    font-size: 8vw;
+    margin-top: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+}
+
+h2 {
+    text-align: center;
+}
+
+button {
+    font-family: 'Baloo 2', cursive;
+    font-size: 16px;
+    padding: 10px 16px;
+    margin: 6px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: white;
+    color: #2c5364;
+    font-weight: bold;
+}
+
+#timer {
+    font-size: 32px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="moon"></div>
+<div class="moon-reflection"></div>
+<div class="water"></div>
+
+<div class="content">
+
+<header>🌙🎲 Πλάτς & Λέξη 🎲🌙</header>
+
+<div class="card">
+<h2>⏱ Χρονοδιακόπτης</h2>
+<div id="timer">00:00</div>
+
+<div style="text-align:center;">
+<button onclick="startGame()">▶ Έναρξη</button>
+<button onclick="pauseGame()">⏸ Pause</button>
+<button onclick="endGame()">⛔ Λήξη</button>
+<button onclick="toggleSound()">🔊 Ήχος ON/OFF</button>
+</div>
+</div>
+
+<div class="card">
+<h2>🎯 Στόχος του παιχνιδιού</h2>
+<p>Σύλλεξε τα γράμματα που χρειάζεσαι για να φτιάξεις τη λέξη σου. 
+Ο πρώτος που θα τα καταφέρει κερδίζει!</p>
+
+<h2>📦 Περιεχόμενα παιχνιδιού</h2>
+<ul>
+<li>Ταμπλό λίμνη γραμμάτων</li>
+<li>Ζάρι</li>
+<li>Κάρτες λέξεων 6 γραμμάτων</li>
+<li>Μαρκαδόροι που σβήνουν</li>
+<li>Ταμπλέτες γραμμάτων</li>
+<li>Πιόνια</li>
+<li>Καρτέλες λέξεων υψηλού επιπέδου με δίφθογγους</li>
+</ul>
+
+<h2>🎮 Πώς παίζεται</h2>
+<ul>
+<li>Κάθε παίκτης επιλέγει ένα πιόνι.</li>
+<li>Ξεκινάει ο πιο μικρός σε ηλικία.</li>
+<li>Όλα τα πιόνια τοποθετούνται στη βάρκα «Αρχή».</li>
+<li>Κάθε παίκτης παίρνει τυχαία από τη στοίβα μια κάρτα λέξης.</li>
+<li>Στη σειρά του, ρίχνει το ζάρι και προχωρά τόσες θέσεις όσες λέει το ζάρι.</li>
+<li>Πρέπει να πει μια λέξη από το γράμμα που έφτασε το πιόνι του, αλλιώς γυρίζει πίσω.</li>
+<li>Αν πει σωστή λέξη, παραμένει στη θέση.</li>
+<li>Αν το γράμμα χρειάζεται για τη λέξη του, το κερδίζει και το συμπληρώνει.</li>
+<li>Οι θέσεις με αστεράκι είναι θέσεις ξεκούρασης.</li>
+<li>Όταν συμπληρώσει τη λέξη του, επιστρέφει στη «Αρχή».</li>
+<li>Στην επιστροφή, λέει μια λέξη από ένα γράμμα της λέξης του και κερδίζει.</li>
+<li>Δεν επιτρέπεται να ειπωθεί λέξη που έχει ήδη ειπωθεί.</li>
+</ul>
+
+</div>
+
+</div>
+
+<audio id="frogSound" loop>
+  <source src="frogs.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Αστέρια
+for(let i=0;i<100;i++){
+    let star=document.createElement("div");
+    star.className="star";
+    star.style.top=Math.random()*100+"%";
+    star.style.left=Math.random()*100+"%";
+    star.style.animationDuration=(Math.random()*3+1)+"s";
+    document.getElementById("stars").appendChild(star);
+}
+
+// Βατραχάκια
+for(let i=0;i<6;i++){
+    let frog=document.createElement("div");
+    frog.className="frog";
+    frog.innerText="🐸";
+    frog.style.left=Math.random()*90+"%";
+    frog.style.top=Math.random()*70+"%";
+    document.body.appendChild(frog);
+}
+
+// Timer
+let seconds=0;
+let interval=null;
+let running=false;
+let soundOn=false;
+
+function updateTimer(){
+    seconds++;
+    let mins=Math.floor(seconds/60);
+    let secs=seconds%60;
+    document.getElementById("timer").innerText=
+        String(mins).padStart(2,'0')+":"+
+        String(secs).padStart(2,'0');
+}
+
+function startGame(){
+    if(!running){
+        interval=setInterval(updateTimer,1000);
+        running=true;
+        if(soundOn){
+            document.getElementById("frogSound").play();
+        }
+    }
+}
+
+function pauseGame(){
+    clearInterval(interval);
+    running=false;
+}
+
+function endGame(){
+    clearInterval(interval);
+    running=false;
+    seconds=0;
+    document.getElementById("timer").innerText="00:00";
+}
+
+function toggleSound(){
+    let audio=document.getElementById("frogSound");
+    if(!soundOn){
+        audio.play();
+        soundOn=true;
+    }else{
+        audio.pause();
+        soundOn=false;
+    }
+}
+</script>
+
+</body>
+</html>
