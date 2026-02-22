@@ -9,105 +9,128 @@
 
 <style>
 html,body{
-    margin:0;
-    padding:0;
-    font-family:'Baloo 2', Arial, sans-serif;
-    font-weight:600;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    color:white;
-    background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);
-    overflow-x:hidden;
+margin:0;
+padding:0;
+font-family:'Baloo 2', Arial, sans-serif;
+font-weight:600;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+color:white;
+background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);
+overflow-x:hidden;
 }
 
 /* Stars */
 .stars{position:fixed;width:100%;height:100%;z-index:0;}
 .star{
-    position:absolute;width:2px;height:2px;background:white;
-    animation:twinkle 2s infinite alternate;
+position:absolute;width:2px;height:2px;background:white;
+animation:twinkle 2s infinite alternate;
 }
 @keyframes twinkle{from{opacity:0.2;}to{opacity:1;}}
 
 /* Moon */
 .moon{
-    position:absolute;top:60px;left:-150px;
-    width:90px;height:90px;
-    background:radial-gradient(circle,#fff 40%,#ddd 70%);
-    border-radius:50%;
-    box-shadow:0 0 40px rgba(255,255,255,0.8);
-    animation:moveMoon 70s linear infinite;
+position:absolute;top:60px;left:-150px;
+width:90px;height:90px;
+background:radial-gradient(circle,#fff 40%,#ddd 70%);
+border-radius:50%;
+box-shadow:0 0 40px rgba(255,255,255,0.8);
+animation:moveMoon 70s linear infinite;
 }
 @keyframes moveMoon{from{left:-150px;}to{left:110%;}}
 
 /* Water */
 .water{
-    position:fixed;
-    bottom:0;
-    width:100%;
-    height:140px;
-    background:linear-gradient(to top,rgba(0,119,190,0.7),rgba(0,119,190,0.4));
-    overflow:hidden;
+position:fixed;
+bottom:0;
+width:100%;
+height:140px;
+background:linear-gradient(to top,rgba(0,119,190,0.7),rgba(0,119,190,0.4));
+overflow:hidden;
 }
 
 .ripple{
-    position:absolute;
-    border:2px solid rgba(255,255,255,0.7);
-    border-radius:50%;
-    animation:rippleAnim 1s ease-out forwards;
+position:absolute;
+border:2px solid rgba(255,255,255,0.7);
+border-radius:50%;
+animation:rippleAnim 1s ease-out forwards;
 }
 @keyframes rippleAnim{
-    from{width:0;height:0;opacity:1;}
-    to{width:120px;height:120px;opacity:0;}
+from{width:0;height:0;opacity:1;}
+to{width:120px;height:120px;opacity:0;}
 }
 
 /* Frogs */
 .frog{
-    position:fixed;
-    font-size:34px;
-    cursor:pointer;
-    animation:floatFrog 4s ease-in-out infinite alternate;
+position:fixed;
+font-size:34px;
+cursor:pointer;
+animation:floatFrog 4s ease-in-out infinite alternate;
+transition:transform .2s;
 }
 @keyframes floatFrog{
-    from{transform:translateY(0px);}
-    to{transform:translateY(-25px);}
+from{transform:translateY(0px);}
+to{transform:translateY(-25px);}
 }
 
+/* Layout */
 .content{
-    position:relative;
-    z-index:5;
-    padding:20px;
-    max-width:900px;
-    margin:auto;
+position:relative;
+z-index:5;
+padding:20px;
+max-width:900px;
+margin:auto;
 }
 
 header{
-    font-size:clamp(28px,6vw,48px);
-    text-align:center;
-    margin:20px 0;
+font-size:clamp(28px,6vw,48px);
+text-align:center;
+margin:20px 0;
 }
 
 .card{
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(12px);
-    padding:20px;
-    border-radius:18px;
-    margin-bottom:20px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(12px);
+padding:20px;
+border-radius:18px;
+margin-bottom:20px;
+}
+
+.section{
+background:rgba(255,255,255,0.08);
+padding:15px;
+border-radius:14px;
+margin-bottom:15px;
+}
+
+.lily{
+border:1px solid rgba(255,255,255,0.2);
+box-shadow:0 0 10px rgba(255,255,255,0.1);
+}
+
+.section ul{
+list-style:none;
+padding-left:0;
+}
+
+.section li{
+margin-bottom:8px;
+line-height:1.4;
 }
 
 h2{text-align:center;}
-ul{padding-left:20px;}
 
 button{
-    font-family:'Baloo 2', Arial, sans-serif;
-    font-weight:700;
-    font-size:15px;
-    padding:10px 14px;
-    margin:5px;
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-    background:white;
-    color:#2c5364;
+font-family:'Baloo 2', Arial, sans-serif;
+font-weight:700;
+font-size:15px;
+padding:10px 14px;
+margin:5px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+background:white;
+color:#2c5364;
 }
 
 .buttons{text-align:center;margin-top:10px;}
@@ -116,7 +139,7 @@ button{
 #finalTime{text-align:center;color:#FFD700;margin-top:10px;}
 
 @media(max-width:480px){
-    button{width:100%;margin:6px 0;}
+button{width:100%;margin:6px 0;}
 }
 </style>
 </head>
@@ -145,50 +168,75 @@ button{
 </div>
 
 <div class="card">
-<h2>🎯 Στόχος του παιχνιδιού</h2>
-<p>
-Οι παίκτες προσπαθούν να συλλέξουν τα γράμματα που χρειάζονται ώστε να σχηματίσουν
-τη λέξη της κάρτας τους. Ο πρώτος που θα συμπληρώσει σωστά τη λέξη και θα
-επιστρέψει στην αφετηρία είναι ο νικητής.
-</p>
 
-<h2>📦 Περιεχόμενα</h2>
+<h2>🎯 Στόχος του Παιχνιδιού</h2>
+<div class="section">
+Σύλλεξε τα γράμματα που χρειάζεσαι για να φτιάξεις τη λέξη σου.
+Ο πρώτος που θα τα καταφέρει κερδίζει!
+</div>
+
+<h2>📦 Περιεχόμενα Παιχνιδιού</h2>
+<div class="section lily">
 <ul>
-<li>Ταμπλό – Λίμνη γραμμάτων</li>
-<li>1 Ζάρι</li>
-<li>Κάρτες λέξεων 6 γραμμάτων</li>
-<li>Κάρτες υψηλού επιπέδου (με δίφθογγους)</li>
-<li>Μαρκαδόροι που σβήνουν</li>
-<li>Ταμπλέτες γραμμάτων</li>
-<li>Πιόνια</li>
+<li>🪷 Ταμπλό λίμνη γραμμάτων</li>
+<li>🎲 Ζάρι ανάγλυφο 8 εδρών</li>
+<li>🔤 Κάρτες 4 γραμμάτων (εύκολο επίπεδο)</li>
+<li>🔡 Κάρτες 6 γραμμάτων (μέτρια δυσκολία)</li>
+<li>⭐ Κάρτες υψηλού επιπέδου με δίφθογγους</li>
+<li>✏ Μαρκαδόροι που σβήνουν</li>
+<li>🐸 Πιόνια-βατραχάκια</li>
 </ul>
+</div>
 
 <h2>🧩 Προετοιμασία</h2>
+<div class="section">
 <ul>
-<li>Κάθε παίκτης διαλέγει ένα πιόνι.</li>
-<li>Όλα τα πιόνια τοποθετούνται στη βάρκα «Αρχή».</li>
-<li>Κάθε παίκτης τραβά τυχαία μία κάρτα λέξης.</li>
-<li>Οι παίκτες κρατούν μυστική τη λέξη τους.</li>
+<li>Κάθε παίκτης επιλέγει ένα πιόνι-βάτραχο.</li>
+<li>Ξεκινά ο παίκτης που επισκέφτηκε λίμνη πιο πρόσφατα.</li>
+<li>Όλα τα πιόνια τοποθετούνται στο νούφαρο «Αρχή».</li>
+<li>Η παρέα επιλέγει επίπεδο καρτών και τοποθετεί τη στοίβα ανάποδα.</li>
+<li>Κάθε παίκτης τραβά μία κάρτα λέξης που πρέπει να δημιουργήσει.</li>
 </ul>
+</div>
 
-<h2>🎮 Τρόπος Παιχνιδιού</h2>
+<h2>🎮 Πώς Παίζεται</h2>
+<div class="section lily">
 <ul>
-<li>Ξεκινά ο μικρότερος σε ηλικία παίκτης.</li>
-<li>Ρίχνει το ζάρι και μετακινεί το πιόνι του τόσες θέσεις όσες δείχνει.</li>
-<li>Όταν σταματήσει σε γράμμα, πρέπει να πει μια σωστή λέξη που αρχίζει από αυτό το γράμμα.</li>
-<li>Αν δεν βρει λέξη, επιστρέφει πίσω.</li>
-<li>Αν βρει σωστή λέξη, παραμένει στη θέση.</li>
-<li>Αν το γράμμα υπάρχει στη λέξη του, το κερδίζει.</li>
-<li>Οι θέσεις με νούφαρα είναι θέσεις ξεκούρασης (δεν χάνει σειρά).</li>
-<li>Δεν επιτρέπεται επανάληψη λέξεων.</li>
+<li>Ξεκινώντας από τον πιο μικρό παίκτη ρίχνει το ζάρι.</li>
+<li>Προχωρά τόσες θέσεις όσες δείχνει το ζάρι.</li>
+<li>Πρέπει να πει λέξη από το γράμμα της θέσης που έφτασε.</li>
+<li>Αν δεν βρει λέξη επιστρέφει πίσω.</li>
+<li>Αν βρει σωστή λέξη παραμένει στη θέση.</li>
+<li>Αν το γράμμα χρειάζεται για τη λέξη του το γράφει στην καρτέλα του.</li>
+<li>Τα νούφαρα είναι θέσεις ξεκούρασης.</li>
+<li>Μια λέξη που έχει ειπωθεί δεν επαναλαμβάνεται.</li>
 </ul>
+</div>
+
+<h2>🧭 Κίνηση στο Ταμπλό</h2>
+<div class="section">
+<ul>
+<li>Οι γκρι στήλες δεν διαπερνώνται.</li>
+<li>Τα πιόνια κινούνται στις λευκές γραμμές.</li>
+<li>Στον εξωτερικό κύκλο επιτρέπεται κίνηση δεξιά & αριστερά.</li>
+<li>Μπορούν να περνούν από το νούφαρο «Αρχή» όποτε χρειάζονται.</li>
+</ul>
+</div>
 
 <h2>🏆 Νίκη</h2>
+<div class="section lily">
 <ul>
-<li>Όταν ο παίκτης συμπληρώσει όλα τα γράμματα της λέξης του, πρέπει να επιστρέψει στην «Αρχή».</li>
-<li>Στην επιστροφή πρέπει να πει σωστά μια λέξη από ένα γράμμα της λέξης του.</li>
-<li>Ο πρώτος που θα το καταφέρει κερδίζει την παρτίδα.</li>
+<li>Όταν συμπληρώσει τη λέξη του συνεχίζει μέχρι να επιστρέψει στο «Αρχή».</li>
+<li>Επιλέγει ένα γράμμα της λέξης του.</li>
+<li>Λέει μια λέξη από αυτό το γράμμα.</li>
+<li>Κερδίζει το παιχνίδι!</li>
 </ul>
+</div>
+
+<h2>🎵 Παραλλαγή για Γλεντζέδες</h2>
+<div class="section">
+Αντί για λέξη τραγουδάμε τραγούδι που ξεκινά από το γράμμα που έτυχε!
+</div>
 
 </div>
 
@@ -198,108 +246,77 @@ button{
 <audio id="frogClick" src="frog-croak.mp3"></audio>
 
 <script>
-
-/* Stars */
 for(let i=0;i<100;i++){
-    let star=document.createElement("div");
-    star.className="star";
-    star.style.top=Math.random()*100+"%";
-    star.style.left=Math.random()*100+"%";
-    document.getElementById("stars").appendChild(star);
+let star=document.createElement("div");
+star.className="star";
+star.style.top=Math.random()*100+"%";
+star.style.left=Math.random()*100+"%";
+document.getElementById("stars").appendChild(star);
 }
 
-/* Frogs */
 for(let i=0;i<8;i++){
-    let frog=document.createElement("div");
-    frog.className="frog";
-    frog.innerText="🐸";
-    frog.style.top=Math.random()*70+"%";
-    frog.style.left=Math.random()*90+"%";
-
-    frog.addEventListener("click",function(e){
-        unlockAudio();
-        let clickSound=document.getElementById("frogClick");
-        clickSound.currentTime=0;
-        clickSound.play();
-        createRipple(e.clientX,e.clientY);
-    });
-
-    document.body.appendChild(frog);
+let frog=document.createElement("div");
+frog.className="frog";
+frog.innerText="🐸";
+frog.style.top=Math.random()*70+"%";
+frog.style.left=Math.random()*90+"%";
+frog.onclick=(e)=>{
+document.getElementById("frogClick").currentTime=0;
+document.getElementById("frogClick").play();
+createRipple(e.clientX,e.clientY);
+frog.style.transform="scale(1.5)";
+setTimeout(()=>frog.style.transform="scale(1)",200);
+};
+document.body.appendChild(frog);
 }
 
-/* Ripple */
 function createRipple(x,y){
-    let ripple=document.createElement("div");
-    ripple.className="ripple";
-    ripple.style.left=(x-60)+"px";
-    ripple.style.top=(y-60)+"px";
-    document.getElementById("water").appendChild(ripple);
-    setTimeout(()=>ripple.remove(),1000);
+let ripple=document.createElement("div");
+ripple.className="ripple";
+ripple.style.left=(x-60)+"px";
+ripple.style.top=(y-60)+"px";
+document.getElementById("water").appendChild(ripple);
+setTimeout(()=>ripple.remove(),1000);
 }
 
-/* Audio unlock */
-let audioUnlocked=false;
-function unlockAudio(){
-    if(!audioUnlocked){
-        let loop=document.getElementById("frogLoop");
-        loop.play().then(()=>{loop.pause();});
-        audioUnlocked=true;
-    }
-}
-
-/* Timer */
-let seconds=0, interval=null, running=false, gameEnded=false, soundOn=false;
+let seconds=0,interval=null,running=false,gameEnded=false,soundOn=false;
 
 function formatTime(sec){
-    let m=Math.floor(sec/60);
-    let s=sec%60;
-    return String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
+let m=Math.floor(sec/60);
+let s=sec%60;
+return String(m).padStart(2,'0')+":"+String(s).padStart(2,'0');
 }
 
 function startGame(){
-    unlockAudio();
-    if(gameEnded){
-        seconds=0;
-        document.getElementById("finalTime").innerText="";
-        document.getElementById("timer").innerText="00:00";
-        gameEnded=false;
-    }
-    if(!running){
-        interval=setInterval(()=>{
-            seconds++;
-            document.getElementById("timer").innerText=formatTime(seconds);
-        },1000);
-        running=true;
-        if(soundOn) document.getElementById("frogLoop").play();
-    }
+if(gameEnded){seconds=0;finalTime.innerText="";timer.innerText="00:00";gameEnded=false;}
+if(!running){
+interval=setInterval(()=>{seconds++;timer.innerText=formatTime(seconds);},1000);
+running=true;
+if(soundOn) frogLoop.play();
+}
 }
 
 function pauseGame(){clearInterval(interval);running=false;}
 
 function endGame(){
-    clearInterval(interval);
-    running=false;
-    gameEnded=true;
-    document.getElementById("finalTime").innerText=
-        "🏆 Η παρτίδα διήρκεσε: "+formatTime(seconds);
+clearInterval(interval);
+running=false;
+gameEnded=true;
+finalTime.innerText="🏆 Η παρτίδα διήρκεσε: "+formatTime(seconds);
 }
 
 function toggleSound(){
-    unlockAudio();
-    let audio=document.getElementById("frogLoop");
-    if(!soundOn){audio.play();soundOn=true;}
-    else{audio.pause();soundOn=false;}
+if(!soundOn){frogLoop.play();soundOn=true;}
+else{frogLoop.pause();soundOn=false;}
 }
 
 function toggleFullScreen(){
-    if(!document.fullscreenElement)
-        document.documentElement.requestFullscreen();
-    else
-        document.exitFullscreen();
+if(!document.fullscreenElement)
+document.documentElement.requestFullscreen();
+else
+document.exitFullscreen();
 }
-
 </script>
 
 </body>
 </html>
-
