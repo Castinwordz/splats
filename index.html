@@ -16,8 +16,8 @@ html,body{
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
     color:white;
-    text-align:center;
     background:linear-gradient(to bottom,#0f2027,#203a43,#2c5364);
+    overflow-x:hidden;
 }
 
 /* Stars */
@@ -30,24 +30,30 @@ html,body{
 
 /* Moon */
 .moon{
-    position:absolute;top:80px;left:-150px;
-    width:110px;height:110px;
+    position:absolute;top:60px;left:-150px;
+    width:90px;height:90px;
     background:radial-gradient(circle,#fff 40%,#ddd 70%);
     border-radius:50%;
-    box-shadow:0 0 50px rgba(255,255,255,0.8);
-    animation:moveMoon 60s linear infinite;
+    box-shadow:0 0 40px rgba(255,255,255,0.8);
+    animation:moveMoon 70s linear infinite;
 }
 @keyframes moveMoon{from{left:-150px;}to{left:110%;}}
 
 /* Water */
 .water{
-    position:fixed;bottom:0;width:100%;height:160px;
-    background:rgba(0,119,190,0.5);
+    position:fixed;
+    bottom:0;
+    width:100%;
+    height:140px;
+    background:linear-gradient(to top,rgba(0,119,190,0.7),rgba(0,119,190,0.4));
     overflow:hidden;
 }
+
 .ripple{
-    position:absolute;border:2px solid rgba(255,255,255,0.7);
-    border-radius:50%;animation:rippleAnim 1s ease-out forwards;
+    position:absolute;
+    border:2px solid rgba(255,255,255,0.7);
+    border-radius:50%;
+    animation:rippleAnim 1s ease-out forwards;
 }
 @keyframes rippleAnim{
     from{width:0;height:0;opacity:1;}
@@ -56,32 +62,62 @@ html,body{
 
 /* Frogs */
 .frog{
-    position:fixed;font-size:32px;cursor:pointer;
+    position:fixed;
+    font-size:34px;
+    cursor:pointer;
+    animation:floatFrog 4s ease-in-out infinite alternate;
 }
-.frog:active{transform:scale(1.3);}
+@keyframes floatFrog{
+    from{transform:translateY(0px);}
+    to{transform:translateY(-25px);}
+}
 
-.content{position:relative;z-index:5;padding:20px;}
-header{font-size:8vw;margin-top:20px;}
+.content{
+    position:relative;
+    z-index:5;
+    padding:20px;
+    max-width:900px;
+    margin:auto;
+}
+
+header{
+    font-size:clamp(28px,6vw,48px);
+    text-align:center;
+    margin:20px 0;
+}
 
 .card{
     background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(10px);
-    margin:20px auto;padding:25px;
-    border-radius:20px;width:90%;max-width:800px;
-    text-align:left;
+    backdrop-filter:blur(12px);
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:20px;
 }
 
 h2{text-align:center;}
 ul{padding-left:20px;}
+
 button{
     font-family:'Baloo 2', Arial, sans-serif;
-    font-weight:700;font-size:16px;
-    padding:10px 16px;margin:6px;
-    border:none;border-radius:12px;
-    cursor:pointer;background:white;color:#2c5364;
+    font-weight:700;
+    font-size:15px;
+    padding:10px 14px;
+    margin:5px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    background:white;
+    color:#2c5364;
 }
-#timer{font-size:32px;text-align:center;}
-#finalTime{font-size:20px;text-align:center;margin-top:10px;color:#FFD700;}
+
+.buttons{text-align:center;margin-top:10px;}
+
+#timer{font-size:28px;text-align:center;}
+#finalTime{text-align:center;color:#FFD700;margin-top:10px;}
+
+@media(max-width:480px){
+    button{width:100%;margin:6px 0;}
+}
 </style>
 </head>
 
@@ -96,10 +132,10 @@ button{
 <header>🌙🎲 Πλάτς & Λέξη 🎲🌙</header>
 
 <div class="card">
-<h2>⏱ Χρονοδιακόπτης</h2>
+<h2>⏱ Χρονοδιακόπτης Παρτίδας</h2>
 <div id="timer">00:00</div>
 <div id="finalTime"></div>
-<div style="text-align:center;">
+<div class="buttons">
 <button onclick="startGame()">▶ Έναρξη</button>
 <button onclick="pauseGame()">⏸ Pause</button>
 <button onclick="endGame()">⛔ Λήξη</button>
@@ -110,48 +146,60 @@ button{
 
 <div class="card">
 <h2>🎯 Στόχος του παιχνιδιού</h2>
-<p>Σύλλεξε τα γράμματα που χρειάζεσαι για να φτιάξεις τη λέξη σου. Ο πρώτος που θα τα καταφέρει κερδίζει!</p>
+<p>
+Οι παίκτες προσπαθούν να συλλέξουν τα γράμματα που χρειάζονται ώστε να σχηματίσουν
+τη λέξη της κάρτας τους. Ο πρώτος που θα συμπληρώσει σωστά τη λέξη και θα
+επιστρέψει στην αφετηρία είναι ο νικητής.
+</p>
 
-<h2>📦 Περιεχόμενα παιχνιδιού</h2>
+<h2>📦 Περιεχόμενα</h2>
 <ul>
-<li>Ταμπλό λίμνη γραμμάτων</li>
-<li>Ζάρι</li>
+<li>Ταμπλό – Λίμνη γραμμάτων</li>
+<li>1 Ζάρι</li>
 <li>Κάρτες λέξεων 6 γραμμάτων</li>
+<li>Κάρτες υψηλού επιπέδου (με δίφθογγους)</li>
 <li>Μαρκαδόροι που σβήνουν</li>
 <li>Ταμπλέτες γραμμάτων</li>
 <li>Πιόνια</li>
-<li>Καρτέλες λέξεων υψηλού επιπέδου με δίφθογγους</li>
 </ul>
 
-<h2>🎮 Πώς παίζεται</h2>
+<h2>🧩 Προετοιμασία</h2>
 <ul>
-<li>Κάθε παίκτης επιλέγει ένα πιόνι.</li>
-<li>Ξεκινάει ο πιο μικρός σε ηλικία.</li>
+<li>Κάθε παίκτης διαλέγει ένα πιόνι.</li>
 <li>Όλα τα πιόνια τοποθετούνται στη βάρκα «Αρχή».</li>
-<li>Κάθε παίκτης παίρνει τυχαία μια κάρτα λέξης.</li>
-<li>Ρίχνει το ζάρι και προχωρά τόσες θέσεις όσες λέει το ζάρι.</li>
-<li>Πρέπει να πει μια λέξη από το γράμμα που έφτασε. Αν δεν πει, γυρίζει πίσω.</li>
-<li>Αν πει σωστή λέξη, παραμένει στη θέση.</li>
-<li>Αν το γράμμα χρειάζεται για τη λέξη του, το κερδίζει.</li>
-<li>Οι θέσεις με αστεράκι είναι θέσεις ξεκούρασης.</li>
-<li>Όταν συμπληρώσει τη λέξη του, επιστρέφει στη «Αρχή».</li>
-<li>Στην επιστροφή λέει μια λέξη από ένα γράμμα της λέξης του και κερδίζει.</li>
+<li>Κάθε παίκτης τραβά τυχαία μία κάρτα λέξης.</li>
+<li>Οι παίκτες κρατούν μυστική τη λέξη τους.</li>
+</ul>
+
+<h2>🎮 Τρόπος Παιχνιδιού</h2>
+<ul>
+<li>Ξεκινά ο μικρότερος σε ηλικία παίκτης.</li>
+<li>Ρίχνει το ζάρι και μετακινεί το πιόνι του τόσες θέσεις όσες δείχνει.</li>
+<li>Όταν σταματήσει σε γράμμα, πρέπει να πει μια σωστή λέξη που αρχίζει από αυτό το γράμμα.</li>
+<li>Αν δεν βρει λέξη, επιστρέφει πίσω.</li>
+<li>Αν βρει σωστή λέξη, παραμένει στη θέση.</li>
+<li>Αν το γράμμα υπάρχει στη λέξη του, το κερδίζει.</li>
+<li>Οι θέσεις με αστεράκι είναι θέσεις ξεκούρασης (δεν χάνει σειρά).</li>
 <li>Δεν επιτρέπεται επανάληψη λέξεων.</li>
 </ul>
-</div>
+
+<h2>🏆 Νίκη</h2>
+<ul>
+<li>Όταν ο παίκτης συμπληρώσει όλα τα γράμματα της λέξης του, πρέπει να επιστρέψει στην «Αρχή».</li>
+<li>Στην επιστροφή πρέπει να πει σωστά μια λέξη από ένα γράμμα της λέξης του.</li>
+<li>Ο πρώτος που θα το καταφέρει κερδίζει την παρτίδα.</li>
+</ul>
 
 </div>
 
-<audio id="frogLoop" loop>
-<source src="frogs.mp3" type="audio/mpeg">
-</audio>
+</div>
 
-<audio id="frogClick">
-<source src="frog-croak.mp3" type="audio/mpeg">
-</audio>
+<audio id="frogLoop" loop src="frogs.mp3"></audio>
+<audio id="frogClick" src="frog-croak.mp3"></audio>
 
 <script>
-// Stars
+
+/* Stars */
 for(let i=0;i<100;i++){
     let star=document.createElement("div");
     star.className="star";
@@ -160,33 +208,46 @@ for(let i=0;i<100;i++){
     document.getElementById("stars").appendChild(star);
 }
 
-// Frogs
+/* Frogs */
 for(let i=0;i<8;i++){
     let frog=document.createElement("div");
     frog.className="frog";
     frog.innerText="🐸";
-    frog.style.top=Math.random()*75+"%";
-    frog.style.left=Math.random()*95+"%";
+    frog.style.top=Math.random()*70+"%";
+    frog.style.left=Math.random()*90+"%";
 
-    frog.onclick=(e)=>{
-        document.getElementById("frogClick").play();
-        createRipple(e.clientX);
-    };
+    frog.addEventListener("click",function(e){
+        unlockAudio();
+        let clickSound=document.getElementById("frogClick");
+        clickSound.currentTime=0;
+        clickSound.play();
+        createRipple(e.clientX,e.clientY);
+    });
 
     document.body.appendChild(frog);
 }
 
-// Ripple
-function createRipple(x){
+/* Ripple */
+function createRipple(x,y){
     let ripple=document.createElement("div");
     ripple.className="ripple";
     ripple.style.left=(x-60)+"px";
-    ripple.style.bottom="60px";
+    ripple.style.top=(y-60)+"px";
     document.getElementById("water").appendChild(ripple);
     setTimeout(()=>ripple.remove(),1000);
 }
 
-// Timer
+/* Audio unlock */
+let audioUnlocked=false;
+function unlockAudio(){
+    if(!audioUnlocked){
+        let loop=document.getElementById("frogLoop");
+        loop.play().then(()=>{loop.pause();});
+        audioUnlocked=true;
+    }
+}
+
+/* Timer */
 let seconds=0, interval=null, running=false, gameEnded=false, soundOn=false;
 
 function formatTime(sec){
@@ -196,6 +257,7 @@ function formatTime(sec){
 }
 
 function startGame(){
+    unlockAudio();
     if(gameEnded){
         seconds=0;
         document.getElementById("finalTime").innerText="";
@@ -223,6 +285,7 @@ function endGame(){
 }
 
 function toggleSound(){
+    unlockAudio();
     let audio=document.getElementById("frogLoop");
     if(!soundOn){audio.play();soundOn=true;}
     else{audio.pause();soundOn=false;}
@@ -234,6 +297,7 @@ function toggleFullScreen(){
     else
         document.exitFullscreen();
 }
+
 </script>
 
 </body>
